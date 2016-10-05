@@ -120,9 +120,9 @@
 
         if ((0, _utilUtilJs.isNode)() && !this.enforceWs) {
 
-          this.host = "ssl://" + config.org + ".messaging." + this.domainName + ":8883";
+          this.host = "ssl://" + this.domainName + ":8883";
         } else {
-          this.host = "wss://" + config.org + ".messaging." + this.domainName + ":8883";
+          this.host = "wss://" + this.domainName + ":8883";
         }
 
         this.isQuickstart = false;

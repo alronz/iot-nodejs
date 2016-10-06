@@ -47,13 +47,21 @@ export default class BaseClient extends events.EventEmitter {
     }
 
 	this.domainName = "internetofthings.ibmcloud.com";
+    this.rejectUnauthorized = true;
     this.enforceWs = false;
 	// Parse Domain property
 	if(isDefined(config.domain)){
-		if(!isString(config.domain)){
-		  throw new Error('[BaseClient:constructor] domain must be a string');
-		}
-		this.domainName = config.domain;
+      if(!isString(config.domain)){
+        throw new Error('[BaseClient:constructor] domain must be a string');
+      }
+      this.domainName = config.domain;
+    }
+
+    if(isDefined(config.rejectUnauthorized)){
+      if(!isBoolean(config.rejectUnauthorized)){
+        throw new Error('[BaseClient:constructor] rejectUnauthorized must be a boolean');
+      }
+      this.rejectUnauthorized = config.rejectUnauthorized;
     }
 
     //property to enforce Websockets even in Node 
@@ -92,7 +100,7 @@ export default class BaseClient extends events.EventEmitter {
       this.isQuickstart = false;
       this.mqttConfig = {
         password: config['auth-token'],
-        rejectUnauthorized : true
+        rejectUnauthorized : this.rejectUnauthorized
       };
 
       if(isNode()){

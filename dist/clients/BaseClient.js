@@ -75,6 +75,7 @@
       }
 
       this.domainName = "internetofthings.ibmcloud.com";
+      this.rejectUnauthorized = true;
       this.enforceWs = false;
       // Parse Domain property
       if ((0, _utilUtilJs.isDefined)(config.domain)) {
@@ -82,6 +83,13 @@
           throw new Error('[BaseClient:constructor] domain must be a string');
         }
         this.domainName = config.domain;
+      }
+
+      if ((0, _utilUtilJs.isDefined)(config.rejectUnauthorized)) {
+        if (!(0, _utilUtilJs.isBoolean)(config.rejectUnauthorized)) {
+          throw new Error('[BaseClient:constructor] rejectUnauthorized must be a boolean');
+        }
+        this.rejectUnauthorized = config.rejectUnauthorized;
       }
 
       //property to enforce Websockets even in Node
@@ -128,7 +136,7 @@
         this.isQuickstart = false;
         this.mqttConfig = {
           password: config['auth-token'],
-          rejectUnauthorized: true
+          rejectUnauthorized: this.rejectUnauthorized
         };
 
         if ((0, _utilUtilJs.isNode)()) {
